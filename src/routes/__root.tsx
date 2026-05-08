@@ -10,11 +10,18 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import pawsBg from "@/assets/paws-pattern.jpg";
+import heroBg from "@/assets/pets-hero.jpg";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { PetsProvider } from "@/lib/pets-store";
 import { AuthProvider, useAuth } from "@/lib/auth-store";
 import { Toaster } from "@/components/ui/sonner";
+
+const bgVars = {
+  ["--paws-bg" as string]: `url(${pawsBg})`,
+  ["--hero-bg" as string]: `url(${heroBg})`,
+} as React.CSSProperties;
 
 function NotFoundComponent() {
   return (

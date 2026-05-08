@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, Navigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
@@ -30,11 +30,7 @@ function HomePage() {
   const [query, setQuery] = useState("");
   const [confirmId, setConfirmId] = useState<number | null>(null);
 
-  // Sem auth → manda para login (simulação)
-  if (!isAuthenticated) {
-    navigate({ to: "/login" });
-    return null;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

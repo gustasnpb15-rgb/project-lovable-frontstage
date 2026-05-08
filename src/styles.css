@@ -161,10 +161,9 @@
     border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
   }
   .bg-paws {
-    background-image: url('/src/assets/paws-pattern.jpg');
+    background-image: var(--paws-bg);
     background-size: 320px;
     background-repeat: repeat;
-    background-blend-mode: multiply;
   }
   .auth-bg {
     position: relative;
@@ -174,7 +173,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/src/assets/pets-hero.jpg');
+    background-image: var(--hero-bg);
     background-size: cover;
     background-position: center;
     filter: blur(8px) brightness(0.85);
