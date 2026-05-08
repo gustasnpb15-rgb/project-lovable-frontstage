@@ -9,38 +9,120 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PetsNovoRouteImport } from './routes/pets.novo'
+import { Route as PetsIdRouteImport } from './routes/pets.$id'
+import { Route as PetsIdEditarRouteImport } from './routes/pets.$id.editar'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PetsNovoRoute = PetsNovoRouteImport.update({
+  id: '/pets/novo',
+  path: '/pets/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PetsIdRoute = PetsIdRouteImport.update({
+  id: '/pets/$id',
+  path: '/pets/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PetsIdEditarRoute = PetsIdEditarRouteImport.update({
+  id: '/editar',
+  path: '/editar',
+  getParentRoute: () => PetsIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
+  id:
+    | '__root__'
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CadastroRoute: typeof CadastroRoute
+  LoginRoute: typeof LoginRoute
+  PetsIdRoute: typeof PetsIdRouteWithChildren
+  PetsNovoRoute: typeof PetsNovoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +130,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pets/novo': {
+      id: '/pets/novo'
+      path: '/pets/novo'
+      fullPath: '/pets/novo'
+      preLoaderRoute: typeof PetsNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pets/$id': {
+      id: '/pets/$id'
+      path: '/pets/$id'
+      fullPath: '/pets/$id'
+      preLoaderRoute: typeof PetsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pets/$id/editar': {
+      id: '/pets/$id/editar'
+      path: '/editar'
+      fullPath: '/pets/$id/editar'
+      preLoaderRoute: typeof PetsIdEditarRouteImport
+      parentRoute: typeof PetsIdRoute
+    }
   }
 }
 
+interface PetsIdRouteChildren {
+  PetsIdEditarRoute: typeof PetsIdEditarRoute
+}
+
+const PetsIdRouteChildren: PetsIdRouteChildren = {
+  PetsIdEditarRoute: PetsIdEditarRoute,
+}
+
+const PetsIdRouteWithChildren =
+  PetsIdRoute._addFileChildren(PetsIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CadastroRoute: CadastroRoute,
+  LoginRoute: LoginRoute,
+  PetsIdRoute: PetsIdRouteWithChildren,
+  PetsNovoRoute: PetsNovoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
