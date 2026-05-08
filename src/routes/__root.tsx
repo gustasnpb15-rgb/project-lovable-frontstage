@@ -111,12 +111,16 @@ function AppLayout() {
 
   // Telas de auth: layout sem sidebar
   if (isAuthRoute || !isAuthenticated) {
-    return <Outlet />;
+    return (
+      <div style={bgVars}>
+        <Outlet />
+      </div>
+    );
   }
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background bg-paws">
+      <div style={bgVars} className="min-h-screen flex w-full bg-background bg-paws">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center gap-3 border-b border-border bg-card/70 backdrop-blur px-4 sticky top-0 z-10">
