@@ -9,30 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProdutosRouteImport } from './routes/produtos'
-import { Route as PedidosRouteImport } from './routes/pedidos'
-import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
-import { Route as ClientesRouteImport } from './routes/clientes'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PetsNovoRouteImport } from './routes/pets.novo'
+import { Route as PetsIdRouteImport } from './routes/pets.$id'
+import { Route as PetsIdEditarRouteImport } from './routes/pets.$id.editar'
 
-const ProdutosRoute = ProdutosRouteImport.update({
-  id: '/produtos',
-  path: '/produtos',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PedidosRoute = PedidosRouteImport.update({
-  id: '/pedidos',
-  path: '/pedidos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
-  id: '/configuracoes',
-  path: '/configuracoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClientesRoute = ClientesRouteImport.update({
-  id: '/clientes',
-  path: '/clientes',
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -40,79 +31,96 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PetsNovoRoute = PetsNovoRouteImport.update({
+  id: '/pets/novo',
+  path: '/pets/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PetsIdRoute = PetsIdRouteImport.update({
+  id: '/pets/$id',
+  path: '/pets/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PetsIdEditarRoute = PetsIdEditarRouteImport.update({
+  id: '/editar',
+  path: '/editar',
+  getParentRoute: () => PetsIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/pedidos': typeof PedidosRoute
-  '/produtos': typeof ProdutosRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/pedidos': typeof PedidosRoute
-  '/produtos': typeof ProdutosRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/pedidos': typeof PedidosRoute
-  '/produtos': typeof ProdutosRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/pets/$id': typeof PetsIdRouteWithChildren
+  '/pets/novo': typeof PetsNovoRoute
+  '/pets/$id/editar': typeof PetsIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/clientes' | '/configuracoes' | '/pedidos' | '/produtos'
+  fullPaths:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/clientes' | '/configuracoes' | '/pedidos' | '/produtos'
+  to:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
   id:
     | '__root__'
     | '/'
-    | '/clientes'
-    | '/configuracoes'
-    | '/pedidos'
-    | '/produtos'
+    | '/cadastro'
+    | '/login'
+    | '/pets/$id'
+    | '/pets/novo'
+    | '/pets/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ClientesRoute: typeof ClientesRoute
-  ConfiguracoesRoute: typeof ConfiguracoesRoute
-  PedidosRoute: typeof PedidosRoute
-  ProdutosRoute: typeof ProdutosRoute
+  CadastroRoute: typeof CadastroRoute
+  LoginRoute: typeof LoginRoute
+  PetsIdRoute: typeof PetsIdRouteWithChildren
+  PetsNovoRoute: typeof PetsNovoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/produtos': {
-      id: '/produtos'
-      path: '/produtos'
-      fullPath: '/produtos'
-      preLoaderRoute: typeof ProdutosRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pedidos': {
-      id: '/pedidos'
-      path: '/pedidos'
-      fullPath: '/pedidos'
-      preLoaderRoute: typeof PedidosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/configuracoes': {
-      id: '/configuracoes'
-      path: '/configuracoes'
-      fullPath: '/configuracoes'
-      preLoaderRoute: typeof ConfiguracoesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/clientes': {
-      id: '/clientes'
-      path: '/clientes'
-      fullPath: '/clientes'
-      preLoaderRoute: typeof ClientesRouteImport
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -122,15 +130,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pets/novo': {
+      id: '/pets/novo'
+      path: '/pets/novo'
+      fullPath: '/pets/novo'
+      preLoaderRoute: typeof PetsNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pets/$id': {
+      id: '/pets/$id'
+      path: '/pets/$id'
+      fullPath: '/pets/$id'
+      preLoaderRoute: typeof PetsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pets/$id/editar': {
+      id: '/pets/$id/editar'
+      path: '/editar'
+      fullPath: '/pets/$id/editar'
+      preLoaderRoute: typeof PetsIdEditarRouteImport
+      parentRoute: typeof PetsIdRoute
+    }
   }
 }
 
+interface PetsIdRouteChildren {
+  PetsIdEditarRoute: typeof PetsIdEditarRoute
+}
+
+const PetsIdRouteChildren: PetsIdRouteChildren = {
+  PetsIdEditarRoute: PetsIdEditarRoute,
+}
+
+const PetsIdRouteWithChildren =
+  PetsIdRoute._addFileChildren(PetsIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ClientesRoute: ClientesRoute,
-  ConfiguracoesRoute: ConfiguracoesRoute,
-  PedidosRoute: PedidosRoute,
-  ProdutosRoute: ProdutosRoute,
+  CadastroRoute: CadastroRoute,
+  LoginRoute: LoginRoute,
+  PetsIdRoute: PetsIdRouteWithChildren,
+  PetsNovoRoute: PetsNovoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
