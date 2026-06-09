@@ -13,7 +13,6 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { login, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
   const [form, setForm] = useState({ login_user: "", password_user: "" });
   const [error, setError] = useState("");
 
@@ -27,7 +26,8 @@ function LoginPage() {
     }
     if (login(form.login_user, form.password_user)) {
       toast.success("Bem-vindo de volta!");
-      navigate({ to: "/" });
+      // Reload completo evita falha de chunk antigo em cache
+      window.location.href = "/";
     } else {
       setError("Credenciais inválidas.");
     }
